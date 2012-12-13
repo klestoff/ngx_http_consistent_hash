@@ -9,7 +9,7 @@
 #define CONSISTENT_DEBUG 0
 
 #define MMC_CONSISTENT_BUCKETS 65536
-
+#define HASH_DATA_LENGTH 28
 
 typedef struct {
     ngx_array_t                 *values;
@@ -118,7 +118,7 @@ ngx_http_upstream_init_consistent_hash(ngx_conf_t *cf,
         ngx_http_upstream_srv_conf_t *us)
 {
     /* ip max 15, :port max 6, maxweight is highest number of uchar */
-    u_char                                       *last, hash_data[28];
+    u_char                                       *last, hash_data[HASH_DATA_LENGTH];
     uint32_t                                      step;
     ngx_uint_t                                    i, j, k, n;
     ngx_uint_t                                    real_nodes, points_per_node;
@@ -183,7 +183,7 @@ ngx_http_upstream_init_consistent_hash(ngx_conf_t *cf,
             }
 
             for (k = 0; k < (points_per_node * server[i].weight); k++) {
-                last = ngx_snprintf(hash_data, 28, "%V-%ui",
+                last = ngx_snprintf(hash_data, HASH_DATA_LENGTH, "%V-%ui",
                         &server[i].addrs[j].name, k);
 
                 continuum->nodes[continuum->nnodes].point =
