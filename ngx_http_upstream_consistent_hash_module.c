@@ -184,7 +184,7 @@ ngx_http_upstream_init_consistent_hash(ngx_conf_t *cf,
 
             for (k = 0; k < (points_per_node * server[i].weight); k++) {
                 last = ngx_snprintf(hash_data, HASH_DATA_LENGTH, "%ui:%V",
-                        &server[i].addrs[j].name, k);
+                        k, &server[i].addrs[j].name);
 
                 continuum->nodes[continuum->nnodes].point =
                     ngx_http_upstream_consistent_hash_node_point(hash_data, 
