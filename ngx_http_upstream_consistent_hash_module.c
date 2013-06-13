@@ -483,6 +483,9 @@ ngx_http_upstream_consistent_hash(ngx_conf_t *cf, ngx_command_t *cmd, void *conf
         return NGX_CONF_ERROR;
     }
 
+    if (uscf->peer.init_upstream)
+        ngx_conf_log_error(NGX_LOG_WARN, cf, 0, "load balancing method redefined");
+
     uscf->peer.init_upstream = ngx_http_upstream_init_consistent_hash;
 
     uscf->flags = NGX_HTTP_UPSTREAM_CREATE
